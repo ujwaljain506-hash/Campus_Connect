@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupScreen extends StatefulWidget {
     @override
@@ -9,6 +11,8 @@ class _SignupScreenState extends State<SignupScreen>{
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController confirmpasswordController = TextEditingController();
+    final AuthService _authService = AuthService();
+    
     @override
     void dispose(){
         emailController.dispose();
@@ -36,7 +40,7 @@ class _SignupScreenState extends State<SignupScreen>{
                         SizedBox(height:16.0),
                         TextField(
                             controller: passwordController,
-                            obscureText: true,
+                                 obscureText: true,
                             decoration:InputDecoration(
                                 labelText: 'Password',
                             ),
@@ -51,8 +55,17 @@ class _SignupScreenState extends State<SignupScreen>{
                         ),
                         SizedBox(height: 16.0),
                         ElevatedButton(
-                            onPressed: (){
-                                //login logic here for later
+                            onPressed: () async {
+                                User? user = await _authService.signUp(
+                                    emailController.text,
+                                    passwordController.text,
+                                );
+
+                                if (user != null) {
+                                    print('Signup successful: ${user.email}');
+                                } else {
+                                    print('Signup failed');
+                                }
                             },
                             child: Text('Sign up!'),
                         ),

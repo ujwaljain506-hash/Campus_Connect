@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
+import '../../services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
     @override
@@ -9,9 +11,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final AuthService _authService = AuthService();
 
     @override
-    void dipose() {
+    void dispose() {
         emailController.dispose();
         passwordController.dispose();
         super.dispose();
@@ -43,8 +46,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 16.0),
                         ElevatedButton(
-                            onPressed: (){
-                                //login logic here for later
+                            onPressed: () async {
+                                User? user = await _authService.signIn(
+                                    emailController.text,
+                                    passwordController.text,
+                                );
+
+                                if (user != null) {
+                                    print('Login successful: ${user.email}');
+                                } else {
+                                    print('Login failed');
+                                }
                             },
                             child: Text('Login'),
                         ),
