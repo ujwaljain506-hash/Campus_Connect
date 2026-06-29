@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
     @override
-    State<LoginScreen> createState() => _LoginScreenState();
+    State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen>{
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-
+    final TextEditingController confirmpasswordController = TextEditingController();
     @override
-    void dipose() {
+    void dispose(){
         emailController.dispose();
         passwordController.dispose();
+        confirmpasswordController.dispose();
         super.dispose();
     }
 
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('Login'),
+                title: Text('Sign up'),
             ),
             body: Padding(
                 padding: EdgeInsets.all(16.0),
@@ -29,16 +29,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                         TextField(
                             controller: emailController,
-                            decoration: InputDecoration(
+                            decoration:InputDecoration(
                                 labelText: 'Email',
                             ),
                         ),
-                        SizedBox(height: 16.0),
+                        SizedBox(height:16.0),
                         TextField(
                             controller: passwordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration:InputDecoration(
                                 labelText: 'Password',
+                            ),
+                        ),
+                        SizedBox(height:16.0),
+                        TextField(
+                            controller: confirmpasswordController,
+                            obscureText: true,
+                            decoration:InputDecoration(
+                                labelText: 'Confirm Password',
                             ),
                         ),
                         SizedBox(height: 16.0),
@@ -46,21 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: (){
                                 //login logic here for later
                             },
-                            child: Text('Login'),
+                            child: Text('Sign up!'),
                         ),
-                        SizedBox(height: 16.0),
-                        TextButton(
-                            onPressed: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => SignupScreen()),
-                                );
-                            },
-                            child: Text("Don't have an account? Sign up"),
-                        ),
+
+
                     ]
                 )
             )
         );
     }
+
 }
+
