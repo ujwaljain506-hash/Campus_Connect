@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import '../../services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../home/home_shell.dart';
 
 class LoginScreen extends StatefulWidget {
     @override
@@ -53,7 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
 
                                 if (user != null) {
-                                    print('Login successful: ${user.email}');
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomeShell()),
+                                    );
                                 } else {
                                     print('Login failed');
                                 }
