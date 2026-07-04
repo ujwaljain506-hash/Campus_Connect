@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../notices/notice_board_screen.dart';
 
 class HomeShell extends StatefulWidget {
     @override
@@ -9,7 +10,7 @@ class _HomeShellState extends State<HomeShell> {
     int _selectedIndex = 0;
 
     final List<Widget> _screens = [
-        Center(child: Text('Notice Board')),
+        NoticeBoardScreen(),
         Center(child: Text('Social Feed')),
         Center(child: Text('Study Hub')),
     ];
