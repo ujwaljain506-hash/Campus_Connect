@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/notice.dart';
 import '../../services/firestore_service.dart';
+import 'notice_detail_screen.dart';
 
 class NoticeBoardScreen extends StatefulWidget {
   @override
@@ -39,7 +40,6 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-
             TextField(
               controller: bodyController,
               maxLines: 3,
@@ -48,7 +48,6 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-
             TextField(
               controller: departmentController,
               decoration: const InputDecoration(
@@ -56,7 +55,6 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-
             ElevatedButton(
               onPressed: () async {
                 final notice = Notice(
@@ -77,9 +75,7 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
               },
               child: const Text('Post Notice'),
             ),
-
             const SizedBox(height: 24),
-
             StreamBuilder<List<Notice>>(
               stream: _firestoreService.getNotices(),
               builder: (context, snapshot) {
@@ -103,32 +99,41 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
                   itemCount: notices.length,
                   itemBuilder: (context, index) {
                     final notice = notices[index];
-
-                    return Card(
-                      child: ListTile(
-                        title: Text(notice.title),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              notice.body.length > 50
-                                  ? '${notice.body.substring(0, 50)}...'
-                                  : notice.body,
-                              style: const TextStyle(
-                                color: Colors.grey,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NoticeDetailScreen(notice: notice),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Text(notice.title),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                notice.body.length > 50
+                                    ? '${notice.body.substring(0, 50)}...'
+                                    : notice.body,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            Text(
-                              notice.department,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.blue,
+                              Text(
+                                notice.department,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.blue,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        trailing: Text(
-                          '${notice.createdAt.day}/${notice.createdAt.month}',
+                            ],
+                          ),
+                          trailing: Text(
+                            '${notice.createdAt.day}/${notice.createdAt.month}',
+                          ),
                         ),
                       ),
                     );
@@ -141,4 +146,4 @@ class _NoticeBoardScreenState extends State<NoticeBoardScreen> {
       ),
     );
   }
-}
+}   
