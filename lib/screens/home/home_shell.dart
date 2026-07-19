@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../notices/notice_board_screen.dart';
+import '../social/social_feed_screen.dart';
 
 class HomeShell extends StatefulWidget {
     @override
@@ -11,7 +12,7 @@ class _HomeShellState extends State<HomeShell> {
 
     final List<Widget> _screens = [
         NoticeBoardScreen(),
-        Center(child: Text('Social Feed')),
+        SocialFeedScreen(),
         Center(child: Text('Study Hub')),
     ];
 
