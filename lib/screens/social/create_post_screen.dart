@@ -2,6 +2,9 @@ import 'dart:io';
 import '../../services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../models/post.dart';
+import '../../services/storage_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -16,6 +19,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     final FirestoreService _firestoreService = FirestoreService(); 
     final ImagePicker picker = ImagePicker();
     File? _selectedImage;
+
 
     @override
     void dispose() {
@@ -72,8 +76,31 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  // post logic coming Day 12
-                },
+                final currentUser = FirebaseAuth.instance.currentUser;
+                if (currentUser == null) return;
+
+                String? imageUrl;
+                if (_selectedImage != null) {
+                  imageUrl = await StorageService().uploadPostImage(_selectedImage!);
+                }
+
+                final post = Post(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  userId: currentUser.uid,
+                  username: currentUser.email ?? 'Anonymous',
+                  caption: captionController.text,
+                  imageUrl: imageUrl,
+                  createdAt: DateTime.now(),
+                );
+
+                await _firestoreService.addPost(post);
+                captionController.clear();
+                setState(() {
+                  _selectedImage = null;
+                });
+
+                print('Post created successfully!');
+              },
                 child: const Text('Post'),
               ),
             ),
