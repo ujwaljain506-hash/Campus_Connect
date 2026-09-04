@@ -21,7 +21,7 @@ class SocialFeedScreen extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong'));
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -76,6 +76,32 @@ class SocialFeedScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Row(
+  children: [
+    IconButton(
+      onPressed: () async {
+        final currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser == null) return;
+
+        final bool isLiked = post.likes.contains(currentUser.uid);
+        await _firestoreService.toggleLike(
+          post.id,
+          currentUser.uid,
+          isLiked,
+        );
+      },
+      icon: Icon(
+        Icons.favorite,
+        color: post.likes.contains(
+          FirebaseAuth.instance.currentUser?.uid,
+        )
+            ? Colors.red
+            : Colors.grey,
+      ),
+    ),
+    Text('${post.likes.length} likes'),
+  ],
+),
                   ],
                 ),
               );
