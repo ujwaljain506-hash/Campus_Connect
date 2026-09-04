@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../notices/notice_board_screen.dart';
 import '../social/social_feed_screen.dart';
 import '../profile/profile_screen.dart';
+import '../study/study_hub_screen.dart';
 
 class HomeShell extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _HomeShellState extends State<HomeShell> {
     NoticeBoardScreen(),
     SocialFeedScreen(),
     ProfileScreen(),
+    StudyHubScreen(),
   ];
 
   @override
@@ -22,6 +24,7 @@ class _HomeShellState extends State<HomeShell> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -40,6 +43,10 @@ class _HomeShellState extends State<HomeShell> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'Study Hub',
           ),
         ],
       ),

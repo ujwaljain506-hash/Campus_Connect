@@ -34,6 +34,35 @@ class StorageService {
       return null;
     }
   }
+  Future<String?> uploadPDF(String filePath, String fileName) async {
+  try {
+    final uri = Uri.parse(
+      'https://api.cloudinary.com/v1_1/$_cloudName/raw/upload',
+    );
+
+    final request = http.MultipartRequest('POST', uri);
+    request.fields['upload_preset'] = _uploadPreset;
+    request.fields['resource_type'] = 'raw';
+    request.files.add(
+      await http.MultipartFile.fromPath('file', filePath,
+          filename: fileName),
+    );
+
+    final response = await request.send();
+    final responseData = await response.stream.bytesToString();
+    final jsonData = jsonDecode(responseData);
+
+    if (response.statusCode == 200) {
+      return jsonData['secure_url'];
+    } else {
+      print('Cloudinary PDF error: ${jsonData['error']['message']}');
+      return null;
+    }
+  } catch (e) {
+    print('PDF upload error: $e');
+    return null;
+  }
+}
 }
 // import 'dart:io';
 // import 'package:firebase_storage/firebase_storage.dart';

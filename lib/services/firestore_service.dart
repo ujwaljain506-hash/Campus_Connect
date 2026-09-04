@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/notice.dart';
 import '../models/post.dart';
+import '../models/study_resource.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -67,4 +68,26 @@ class FirestoreService {
             snapshot.docs.map((doc) => Post.fromMap(doc.data())).toList(),
       );
 }
+  Future<void> addStudyResource(StudyResource resource) async {
+    try {
+      await _db
+          .collection('study_resources')
+          .doc(resource.id)
+          .set(resource.toMap());
+    } catch (e) {
+      print('Error adding resource: $e');
+    }
+  }
+
+  Stream<List<StudyResource>> getStudyResources() {
+    return _db
+        .collection('study_resources')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => StudyResource.fromMap(doc.data()))
+              .toList(),
+        );
+  }
 }
