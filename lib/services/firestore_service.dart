@@ -56,4 +56,15 @@ class FirestoreService {
       debugPrint('Error toggling like: $error');
     }
   }
+  Stream<List<Post>> getUserPosts(String userId) {
+  return _db
+      .collection('posts')
+      .where('userId', isEqualTo: userId)
+      .orderBy('createdAt', descending: true)
+      .snapshots()
+      .map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Post.fromMap(doc.data())).toList(),
+      );
+}
 }
