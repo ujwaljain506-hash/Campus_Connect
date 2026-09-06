@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../home/home_shell.dart';
 
 class SignupScreen extends StatefulWidget {
     @override
@@ -62,9 +63,14 @@ class _SignupScreenState extends State<SignupScreen>{
                                 );
 
                                 if (user != null) {
-                                    print('Signup successful: ${user.email}');
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomeShell()),
+                                    );
                                 } else {
-                                    print('Signup failed');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Could not create account. Try again.')),
+                                    );
                                 }
                             },
                             child: Text('Sign up!'),

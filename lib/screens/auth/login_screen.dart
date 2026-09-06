@@ -59,7 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         MaterialPageRoute(builder: (context) => HomeShell()),
                                     );
                                 } else {
-                                    print('Login failed');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Invalid email or password')),
+                                    );
                                 }
                             },
                             child: Text('Login'),
