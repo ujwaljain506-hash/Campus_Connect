@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/study_resource.dart';
 import '../../services/firestore_service.dart';
 import '../../services/storage_service.dart';
+import 'doubt_forum_screen.dart';
 
 class StudyHubScreen extends StatefulWidget {
   const StudyHubScreen({super.key});
@@ -221,6 +222,20 @@ class _StudyHubScreenState extends State<StudyHubScreen> {
             ),
             const SizedBox(height: 24),
             const Divider(),
+            ListTile(
+              leading: const Icon(Icons.forum, color: Colors.blue),
+              title: const Text('Doubt Forum'),
+              subtitle: const Text('Ask and answer questions'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DoubtForumScreen(),
+                  ),
+                );
+              },
+            ),
             const Text(
               'Uploaded Notes',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
