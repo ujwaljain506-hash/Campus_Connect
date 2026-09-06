@@ -11,12 +11,13 @@ plugins {
 android {
     namespace = "com.example.campus_connect"
     compileSdk = flutter.compileSdkVersion
-    //ndkVersion =  "30.0.16138531"
-    //buildToolsVersion = "36.0.0"
+    ndkVersion =  "30.0.16138531"
+    buildToolsVersion = "36.0.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = false
     }
 
     kotlinOptions {
