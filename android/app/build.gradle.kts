@@ -11,7 +11,8 @@ plugins {
 android {
     namespace = "com.example.campus_connect"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    //ndkVersion =  "30.0.16138531"
+    //buildToolsVersion = "36.0.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
